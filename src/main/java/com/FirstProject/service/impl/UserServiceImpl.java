@@ -2,6 +2,8 @@ package com.FirstProject.service.impl;
 import com.FirstProject.model.User;
 import com.FirstProject.repository.UserRepository;
 import com.FirstProject.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,11 +11,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+    Logger logger= LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
     @Override
     public User createUser(User user) {
+        logger.info("Initiating Dao call for save the data");
       User savedUser= userRepository.save(user);
+      logger.info("completed the request for save user data");
         return savedUser;
     }
 
@@ -27,7 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getSingleUser(Long userid) {
-       User user= userRepository.findById(userid).orElseThrow(()->new RuntimeException("user not exist"));
+        logger.info("Initiating Dao call for get single user data as userid{}",userid);
+        User user= userRepository.findById(userid).orElseThrow(()->new RuntimeException("user not exist"));
+        logger.info("Completed Dao call for get single user data as userid{}",userid);
+
         return user ;
     }
 
